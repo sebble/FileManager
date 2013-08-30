@@ -1,0 +1,341 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>FileManager</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <style>
+      * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        cursor: default;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: -moz-none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: sans-serif;
+      }
+      #dirnav {
+        white-space: nowrap;
+      }
+      .dir {
+        width: 10%;
+        background-color: #eee;
+        height: 100%;
+        /*float: left;*/
+        display: inline-block;
+        box-shadow: 0px 0px 25px #999;
+        border-left: solid 1px #999;
+        overflow-y: auto;
+      }
+      .dir ul,
+      .dir li{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .dir li {
+        width: 100%;
+        overflow: hidden;
+        height: 2em;
+        line-height: 2em;
+        padding-left: 1em;
+        white-space: nowrap;
+      }
+      .dir li:hover {
+        background-color: #ddd;
+      }
+      .dir li.selected,
+      .dir li.selected i {
+        background-color: #ddd;
+        background-color: #999;
+        color: #fff;
+      }
+      .dir li i {
+        color: #333;
+        /* [class^="icon-"], [class*=" icon-"] */
+        display: inline;
+        width: auto;
+        height: auto;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: none;
+        background-position: 0% 0%;
+        background-repeat: repeat;
+        margin-top: 0;
+        /* [class^="icon-"].icon-fixed-width, [class*=" icon-"].icon-fixed-width */
+        display: inline-block;
+        width: 1.1428571428571428em;
+        text-align: right;
+        padding-right: 0.2857142857142857em;
+        /* [class^="icon-"], [class*=" icon-"] */
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+      }
+      .dir li i:before {
+        content: "\f07b";
+        content: "\f114";
+      }
+      .dir li.selected i:before,
+      .dir li:hover i:before {
+        content: "\f07c";
+        content: "\f115";
+      }
+      .dir li.selected i:before {
+        content: "\f07b";
+        content: "\f07c";
+      }
+      .dir li.file i:before,
+      .dir li.file:hover i:before {
+        content: "\f15b";
+        content: "\f016";
+      }
+      .dir li.file.selected i:before,
+      .dir li.file.selected:hover i:before {
+        content: "\f15b";
+      }
+      .dir li.file:hover i:before {
+        content: "\f0f6";
+      }
+      .files {
+        background-color: #fff;
+        height: 100%;
+        float: left;
+        width: 60%;
+        box-shadow: 0px 0px 25px #999;
+        border-left: solid 1px #999;
+      }
+      
+      #fileview {
+        position: absolute;
+        top: 0;
+        left: 25.5em;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        padding: 1em;
+      }
+      #fileview div {
+        background-color: #ccc;
+        width: 100%;
+        height: 100%;
+      }
+      
+      
+      /* Animations */
+      .dir {
+        transition: width 1s;
+        width: 0%;
+        overflow-y: hidden;
+        border-width: 0;
+        position: relative;
+      }
+      .dir.show {
+        width: 2em;
+        border-width: 1px;
+      }
+      .dir.open,
+      .dir.open.peek,
+      .dir.open.show.peek {
+        width: 25em;
+        overflow-y: auto;
+      }
+      #dirnav {
+        height: 100%;
+      }
+      .dir.show.peek {
+        width: 10em;
+        overflow-y: auto;
+      }
+      
+      #fileview {
+        transition: left 1s;
+      }
+      
+      /* close folder icon */
+      .dir .icon-remove,
+      .dir.open:first-child .icon-remove{
+        display: none;
+      }
+      .dir.open .icon-remove {
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
+        color: #999;
+        display: block;
+      }
+      .dir .icon-remove:hover {
+        color: #000;
+      }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+      /* Data */
+      var root = [
+        {type:'dir',name:'Home',contents:[
+          {type:'dir',name:'Documents',contents:[]},
+          {type:'dir',name:'Downloads',contents:[]},
+          {type:'dir',name:'Pictures',contents:[
+            {type:'dir',name:'empty',contents:[]},
+            {type:'file',name:'img_0001.jpg'},
+            {type:'file',name:'img_0002.jpg'},
+            {type:'file',name:'img_0003.jpg'},
+            {type:'file',name:'img_0004.jpg'},
+            {type:'file',name:'img_0005.jpg'},
+            {type:'file',name:'img_0006.jpg'},
+            {type:'file',name:'img_0007.jpg'},
+            {type:'file',name:'img_0008.jpg'},
+            {type:'file',name:'img_0009.jpg'},
+            {type:'file',name:'img_0010.jpg'},
+            {type:'file',name:'img_0011.jpg'},
+            {type:'file',name:'img_0012.jpg'},
+            {type:'file',name:'img_0013.jpg'},
+            {type:'file',name:'img_0014.jpg'},
+            {type:'file',name:'img_0015.jpg'},
+            {type:'file',name:'img_0016.jpg'},
+            {type:'file',name:'img_0017.jpg'},
+            {type:'file',name:'img_0018.jpg'},
+            {type:'file',name:'img_0019.jpg'},
+            {type:'file',name:'img_0020.jpg'},
+            {type:'file',name:'img_0021.jpg'},
+            {type:'file',name:'img_0022.jpg'},
+            {type:'file',name:'img_0023.jpg'},
+            {type:'file',name:'img_0024.jpg'},
+            {type:'file',name:'img_0025.jpg'},
+            {type:'file',name:'img_0026.jpg'},
+            {type:'file',name:'img_0027.jpg'},
+            {type:'file',name:'img_0028.jpg'},
+            {type:'file',name:'img_0029.jpg'},
+            {type:'file',name:'img_0030.jpg'},
+            {type:'file',name:'img_0031.jpg'},
+            {type:'file',name:'img_0032.jpg'},
+            {type:'file',name:'img_0033.jpg'},
+          ]},
+          {type:'dir',name:'Projects',contents:[
+            {type:'dir',name:'PhD',contents:[]},
+            {type:'dir',name:'Sebble.com',contents:[
+              {type:'dir',name:'public_html',contents:[
+                {type:'dir',name:'css',contents:[]},
+                {type:'dir',name:'js',contents:[]},
+                {type:'file',name:'.htaccess'},
+                {type:'file',name:'index.html'},
+              ]},
+            ]},
+            {type:'dir',name:'UbiComp2013',contents:[]},
+          ]},
+          {type:'dir',name:'Videos',contents:[
+            {type:'file',name:'movie1.wmv'},
+            {type:'file',name:'movie2.avi'},
+            {type:'file',name:'TheAvengersRIP_CAM_uk.mov'},  
+          ]},
+        ]},
+      ];
+      /* FileBrowser */
+      $(function(){
+        
+        // build tree
+        function buildTree(dir, path){
+          
+          var html = '<div class="dir" id="dir_'+path+'">';
+          var subs = '';
+          for (var i=0; i<dir.length; i++) {
+            var x = dir[i];
+            var type = (x.type=='file')?'file':'';
+            var subpath = path+'_'+i;
+            html = html + '<li class="'+type+'" data-path="'+subpath+'"><i></i> '+x.name+'</li>';
+            if (x.type=='dir') {
+              subs = subs + buildTree(x.contents, subpath);
+            }
+          }
+          html = html + '<div class="icon-remove"></div></div>' + subs;
+          return html;
+          
+        }
+        var $dirs = buildTree(root, '0');
+        //console.log($dirs);
+        $('#dirnav').append($dirs);
+        $('.dir').removeClass('show');
+        $('#dir_0').addClass('show open');
+        
+        $('.dir li').click(function(){
+          var $this = $(this);
+          var path = $this.data('path');
+          if ($this.hasClass('file')) {
+            
+          } else {
+            // hide all sub dirs of this parent
+            var bits = (''+path).split('_');
+            // highlight selections
+            var partpath = '0';
+            $('li').removeClass('selected');
+            $('.dir').removeClass('open show');
+            $('li[data-path="0"]').addClass('selected');
+            $('#dir_0').addClass('show');
+            for (var i=1; i<bits.length; i++) {
+              partpath = partpath + '_' + bits[i];
+              // open dirs
+              $('#dir_'+partpath).addClass('show');
+              // select dir
+              $('li[data-path="'+partpath+'"]').addClass('selected');
+            }
+            // open child dir
+            $('#dir_'+path).addClass('open');
+            // calculate view size
+            var vw = $('.dir.show').length*2 + 23.5 + 'em';
+            $('#fileview').css('left',vw);
+          }
+        });
+        
+        // actions:
+        // - click folder
+        //   => open or replace next folders
+        
+        $('.dir').mouseover(function(){
+          $('.dir').removeClass('peek');
+          $(this).addClass('peek');
+        });
+        $('.dir').mouseout(function(){
+          $(this).removeClass('peek');
+        });
+        $('.dir .icon-remove').click(function(){
+          var path = $(this).parent().attr('id');
+          var bits = path.split('_');
+          bits.pop();
+          bits.shift();
+          path = bits.join('_');
+          // click button to make parent appear path
+          $('li[data-path="'+path+'"]').click();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="fileview"><div><pre>some sample text
+      with some indent
+  but less here...
+    </pre></div></div>
+    <div id="dirnav"></div>
+    <div id="fix"><ul class="dir"><li data-path="0"></li></ul></div>
+    <!--
+    <div id="root" class="dir">
+      <ul>
+        <li><i class="icon-home"></i> Home</li>
+        <li class="selected"><i></i> Documents</li>
+        <li><i></i> Pictures</li>
+      </ul>
+    </div>
+    -->
+  </body>
+</html>
