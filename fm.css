@@ -76,7 +76,7 @@
         text-decoration: inherit;
         -webkit-font-smoothing: antialiased;
       }
-      .dir li i:before {
+      /*.dir li i:before {
         content: "\f07b";
         content: "\f114";
       }
@@ -100,7 +100,7 @@
       }
       .dir li.file:hover i:before {
         content: "\f0f6";
-      }
+      }*/
       .files {
         background-color: #fff;
         height: 100%;
@@ -108,6 +108,10 @@
         width: 60%;
         box-shadow: 0px 0px 25px #999;
         border-left: solid 1px #999;
+      }
+
+      .dir li.file.picture i:before {
+        content: "\f03e";
       }
       
       #fileview {

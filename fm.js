@@ -1,3 +1,18 @@
+
+function filetype(filename) {
+    if (filename.match(/\.(bmp|gif|ico|jpeg|jpg|png|psd|raw|tiff|xcf|svg)$/)) return 'icon-picture'; //"\f03e"
+    if (filename.match(/\.(avi|mpg|ogv|wma)$/)) return 'icon-film';
+    if (filename.match(/\.(aac|m4a|mp3|ogg|wav)$/)) return 'icon-music';
+    if (filename.match(/\.(7z|apk|bin|bz2|cab|deb|dmg|gz|jar|lz|pk3|pk4|rar|tar|tar\.gz|zip)$/)) return 'icon-archive'; //f187
+    if (filename.match(/\.(c|css|ini|html|js|m|sh)$/)) return 'icon-code'; //"\f121"
+        // calendar - "\f073"
+        // book - "\f02d"
+        // film - "\f008"
+        // music - "\f001"
+
+}
+
+
       /* FileBrowser */
       $(function(){
         
@@ -10,7 +25,9 @@
             var x = dir[i];
             var type = (x.type=='file')?'file':'';
             var subpath = path+'_'+i;
-            html = html + '<li class="'+type+'" data-path="'+subpath+'"><i></i> '+x.name+'</li>';
+            var ftype = (x.name.split('.')).pop();
+            ftype = filetype(x.name);
+            html = html + '<li class="'+type+'" data-path="'+subpath+'"><i class="'+ftype+'"></i> '+x.name+'</li>';
             if (x.type=='dir') {
               subs = subs + buildTree(x.contents, subpath);
             }
