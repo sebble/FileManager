@@ -22,6 +22,7 @@
       .dir {
         width: 10%;
         background-color: #eee;
+        background-color: rgba(238,238,238,0.8);
         height: 100%;
         /*float: left;*/
         display: inline-block;
@@ -162,10 +163,12 @@
       
       /* close folder icon */
       .dir .icon-remove,
-      .dir.open:first-child .icon-remove{
+      .dir.open:first-child .icon-remove,
+      .dir.peek:first-child .icon-remove {
         display: none;
       }
-      .dir.open .icon-remove {
+      .dir.open .icon-remove,
+      .dir.peek .icon-remove {
         position: absolute;
         top: 0.5em;
         right: 0.5em;
@@ -174,4 +177,14 @@
       }
       .dir .icon-remove:hover {
         color: #000;
+      }
+
+
+      /* Previews */
+      iframe,
+      pre {
+        border: none;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
       }
