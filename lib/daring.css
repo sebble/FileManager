@@ -1,0 +1,179 @@
+body {
+    font-family: monospace;
+    color: #000;
+    line-height: 1.3em;
+}
+p, pre, blockquote {
+    margin: 1.3em 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3em;
+}
+h1:after {
+    content: '\a=========================';
+    white-space: pre-wrap;
+}
+/*h2:after {
+    content: '\a-------------------------';
+    white-space: pre-wrap;
+}*/
+h2:before {
+    content: '## ';
+}
+h3:before {
+    content: '### ';
+}
+h4:before {
+    content: '#### ';
+}
+h5:before {
+    content: '##### ';
+}
+h6:before {
+    content: '###### ';
+}
+
+@counter-style unorderedtype {
+	type: symbolic;
+	glyphs: '*' '+' '-';
+	suffix: '';
+}
+
+ul {
+    list-style: none;
+    padding: 0 1.95em;
+    position: relative;
+}
+ul > li:before {
+    position: absolute;
+    content: '\00a0- ';
+    left: 0em;
+    display: block;
+}
+
+ol {
+    list-style: none;
+    padding: 0 1.95em;
+    position: relative;
+}
+ol > li:before {
+    position: absolute;
+    content: '1. ';
+    left: 0em;
+    display: block;
+}
+
+blockquote {
+    margin-left: 1.3em;
+    position: relative;
+}
+blockquote:before {
+    position: absolute;
+    left: -1.3em;
+    content: '>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>\a>';
+    white-space: pre-wrap;
+    overflow: hidden;
+    display: block;
+    top: 0;
+    bottom: 0;
+}
+
+pre {
+    margin-left: 2.6em;
+    position: relative;
+    color: #333;
+    background-color: #ddd;
+}
+pre:before {
+    position: absolute;
+    left: -2.6em;
+    content: '....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a....\a';
+    white-space: pre-wrap;
+    overflow: hidden;
+    display: block;
+    top: 0;
+    bottom: 0;
+    color: #900;
+    color: #999;
+}
+
+pre.alt,
+pre.alt2 {
+    margin-left: 0;
+}
+pre.alt:before,
+pre.alt:after {
+    position: relative;
+    left: 0;
+    content: '```';
+    white-space: pre-wrap;
+    color: #000;
+    display: block;
+}
+pre.alt2:before,
+pre.alt2:after {
+    position: relative;
+    left: 0;
+    content: '~~~';
+    white-space: pre-wrap;
+    color: #000;
+    display: block;
+}
+
+hr {
+    border: none;
+}
+hr:before {
+    display: block;
+    width: 100%;
+    text-align: center;
+    content: '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
+    content: '--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------';
+    font-weight: normal;
+    overflow: hidden;
+    height: 1.3em;
+}
+
+/* Inline elements */
+em {
+    color: #333;
+}
+em:before,
+em:after {
+    content: '*';
+}
+em:before,
+em:after {
+    content: '_';
+}
+strong:before,
+strong:after {
+    content: '__';
+}
+strong:before,
+strong:after {
+    content: '**';
+}
+
+a:before {
+    content: '[';
+}
+a:after {
+    content: '](' attr(href) ' "' attr(title) '")';
+}
+code {
+    color: #333;
+    background-color: #ddd;
+}
+code:before,
+code:after {
+    content: '`';
+}
+img:before {
+    position: absolute;
+    top:0;
+    left: 0;
+    display: block;
+    content: '![' attr(alt) '](' attr(href) ' "' attr(title) '")';
+}

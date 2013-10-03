@@ -1,0 +1,51 @@
+
+/* Markdown Extra */
+h1:hover:before {
+    content: '{#' attr(id) ' .' attr(class) '}';
+    float: right;
+    color: #999;
+}
+h2:hover:after,
+h3:hover:after,
+h4:hover:after,
+h5:hover:after,
+h6:hover:after {
+    content: ' {#' attr(id) ' .' attr(class) '}';
+    float: right;
+    color: #999;
+    background-color: rgba(255,255,255,1);
+    margin-bottom: -999em;
+}
+pre.alt:before {
+    content: '``` {#' attr(id) ' .' attr(class) '}';
+}
+pre.alt2:before {
+    content: '~~~ {#' attr(id) ' .' attr(class) '}';
+}
+a:after {
+    content: '](' attr(href) ' "' attr(title) '"){#' attr(id) ' .' attr(class) '}';
+}
+img:before {
+    position: absolute;
+    top:0;
+    left: 0;
+    display: block;
+    content: '![' attr(alt) '](' attr(href) ' "' attr(title) '"){#' attr(id) ' .' attr(class) '}';
+}
+dl > dt {
+    margin-top: 1.3em;
+}
+dt + dt {
+    margin-top: 0;
+}
+dl > dd {
+    padding: 0 1.95em;
+    margin: 0;
+    position: relative;
+}
+dl > dd:before {
+    position: absolute;
+    content: ':  ';
+    left: 0em;
+    display: block;
+}
