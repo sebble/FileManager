@@ -1,0 +1,18 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,700,300);
+body {
+    font-family: "Roboto Condensed";
+    color: #333;
+    font-size: 0.9em;
+    padding: 0 1em;
+    margin: 0;
+}
+blockquote {
+    font-style: italic;
+    border-left: solid 3px #eee;
+    margin-left: 1em;
+    padding-left: 1em;
+}
+blockquote p {
+    margin: 0;
+    padding: 0;
+}
