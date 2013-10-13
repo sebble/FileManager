@@ -1,4 +1,4 @@
-FileManager
-===========
+file-browser
+============
 
-Simple node backed file manager and basic editor
+simple JS based file browser with several viewer plugins
